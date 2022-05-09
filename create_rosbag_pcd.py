@@ -68,14 +68,20 @@ def arr_to_pc2(np_pc, timestamp=None, frame_id='map'):
 
     return msg 
 
-
+import argparse
 if __name__=='__main__':
-    pcd_dir   = '/root/data/SOSLAB/ML2/posco/pointcloud_y03'
-    save_dir   = '/root/data/SOSLAB/ML2/posco/pointcloud_y03.bag'
+    parser = argparse.ArgumentParser(description='arg parser')
+    parser.add_argument('--pcd_dir', help='pcd directory')
+    args = parser.parse_args()
+
+    # pcd_dir   = '/root/data/SOSLAB/ML2/posco/pointcloud_y03'
+    pcd_dir   = args.pcd_dir
+    file_name = pcd_dir.split('/')[-1]
+    save_file   = pcd_dir + '/' + file_name + '.bag'
 
     rospy.init_node('create_rosbag')
 
-    write_rosbag = rosbag.Bag(save_dir, 'w')
+    write_rosbag = rosbag.Bag(save_file, 'w')
 
     pcd_files   = sorted(glob.glob(pcd_dir+'/*.pcd'))
    
